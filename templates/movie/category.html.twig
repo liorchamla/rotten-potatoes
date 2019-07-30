@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les films de la catégorie `{{category.title}}` !
+{% endblock %}
+
+{% block body %}
+    <h1>Les films de la catégorie
+        <em>{{category.title}}</em>
+    </h1>
+
+    <div class="row">
+        {% for movie in category.movies %}
+            <div class="col-3 mb-3">
+                <div class="card">
+                    <img src="{{movie.poster}}" class="img-fluid" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">{{movie.title}}</h4>
+
+                        <h6 class="card-subtitle mb-2 text-muted">Critiqué par
+                            {{movie.ratings|length}}
+                            utilisateurs</h6>
+
+                        <hr>
+
+                        <p class="card-text">
+                            <strong>Réalisé par :
+                            </strong>
+                            {{movie.director.firstName}}
+                            {{movie.director.lastName}}
+                            <br>
+                            <strong>Sorti le :
+                            </strong>
+                            {{ movie.releasedAt | date('d/m/Y') }}
+                        </p>
+
+                        <p class="card-text">{{movie.synopsis}}</p>
+
+                        <a class="card-link" href="#">Voir le détail</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
