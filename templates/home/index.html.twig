@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!
+{% endblock %}
+
+{% block body %}
+    <h2>Les derniers films sortis</h2>
+    {% include "partials/_movies.html.twig" with {'movies': lastReleased} %}
+
+    <h2>Les meilleur films selon la communauté</h2>
+    {% include "partials/_movies.html.twig" with {'movies': bestMovies} %}
+
+    <h2>Les pires films selon la communauté</h2>
+    {% include "partials/_movies.html.twig" with {'movies': worstMovies} %}
+{% endblock %}

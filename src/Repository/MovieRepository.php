@@ -29,6 +29,32 @@ class MovieRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findBestMoviesByAvgRatings(?int $count = 3)
+    {
+        return $this->findForStats("AVG(r.notation)", "DESC", $count);
+    }
+
+    public function findWorstMoviesByAvgRatings(?int $count = 3)
+    {
+        return $this->findForStats("AVG(r.notation)", "ASC", $count);
+    }
+
+    public function findLastReleasedMovies(?int $count = 3)
+    {
+        return $this->findForStats("m.releasedAt", "DESC", $count);
+    }
+
+    protected function findForStats(string $order, string $direction, ?int $count = 3)
+    {
+        return $this->createQueryBuilder("m")
+            ->leftJoin("m.ratings", "r")
+            ->orderBy($order, $direction)
+            ->groupBy("m")
+            ->setMaxResults($count)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Movie[] Returns an array of Movie objects
     //  */
