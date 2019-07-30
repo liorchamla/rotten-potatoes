@@ -38,7 +38,7 @@ class Movie
     /**
      * @ORM\Column(type="datetime")
      */
-    private $releaseAt;
+    private $releasedAt;
 
     /**
      * @ORM\Column(type="text")
@@ -113,14 +113,14 @@ class Movie
         return $this;
     }
 
-    public function getReleaseAt(): ?\DateTimeInterface
+    public function getReleasedAt(): ?\DateTimeInterface
     {
-        return $this->releaseAt;
+        return $this->releasedAt;
     }
 
-    public function setReleaseAt(\DateTimeInterface $releaseAt): self
+    public function setReleasedAt(\DateTimeInterface $releasedAt): self
     {
-        $this->releaseAt = $releaseAt;
+        $this->releasedAt = $releasedAt;
 
         return $this;
     }

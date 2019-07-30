@@ -130,7 +130,7 @@ class AppFixtures extends Fixture
             $movie = new Movie;
             $movie->setTitle($faker->catchPhrase)
                 ->setPoster($faker->imageUrl(200, 500, null, false))
-                ->setReleaseAt($faker->dateTimeBetween('-40 years'))
+                ->setReleasedAt($faker->dateTimeBetween('-40 years'))
                 ->setSynopsis($faker->realText());
 
             // Je prend un people au hasard qui sera le réalisateur
