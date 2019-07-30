@@ -8,6 +8,7 @@ use Faker\Factory;
 use App\Entity\Category;
 use App\Entity\Movie;
 use App\Entity\People;
+use App\Entity\Rating;
 
 class AppFixtures extends Fixture
 {
@@ -77,6 +78,20 @@ class AppFixtures extends Fixture
 
             foreach ($randomCategories as $category) {
                 $movie->addCategory($category);
+            }
+
+            /**
+             * RATINGS D'UN FILM
+             */
+            $ratingsCount = mt_rand(5, 10);
+            for ($r = 0; $r < $ratingsCount; $r++) {
+                $rating = new Rating;
+                $rating->setComment($faker->realText())
+                    ->setCreatedAt($faker->dateTimeBetween("-6 months"))
+                    ->setNotation(mt_rand(1, 5))
+                    ->setMovie($movie);
+
+                $manager->persist($rating);
             }
 
             $manager->persist($movie);
