@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Recherche de `{{ search }}`
+{% endblock %}
+
+{% block body %}
+    <h1>Résultats de la recherche
+        <em>{{search}}</em>
+        ({{results|length}}
+        résultats)</h1>
+
+    {% include "partials/_movies.html.twig" with {'movies': results} %}
+{% endblock %}

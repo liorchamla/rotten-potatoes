@@ -29,6 +29,16 @@ class MovieRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findBySearch(string $q)
+    {
+        return $this->createQueryBuilder("m")
+            ->leftJoin("m.categories", "c")
+            ->andWhere("m.title LIKE :q OR m.synopsis LIKE :q OR c.title LIKE :q")
+            ->setParameter("q", "%$q%")
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findBestMoviesByAvgRatings(?int $count = 3)
     {
         return $this->findForStats("AVG(r.notation)", "DESC", $count);

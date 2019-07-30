@@ -12,6 +12,7 @@ use App\Form\RatingType;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Repository\RatingRepository;
+use App\Repository\MovieRepository;
 
 class MovieController extends AbstractController
 {
@@ -56,6 +57,21 @@ class MovieController extends AbstractController
             'movie' => $movie,
             'form' => $form->createView(),
             'alreadyHasRating' => $alreadyHasRating
+        ]);
+    }
+
+    /**
+     * @Route("/search", name="movie_search")
+     */
+    public function search(MovieRepository $movieRepository, Request $request)
+    {
+        $search = $request->query->get('q', '');
+
+        $results = $movieRepository->findBySearch($search);
+
+        return $this->render('movie/search.html.twig', [
+            'results' => $results,
+            'search' => $search
         ]);
     }
 
