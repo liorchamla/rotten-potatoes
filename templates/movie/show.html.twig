@@ -80,6 +80,35 @@
         </div>
     </div>
     <hr>
+
+    {% if alreadyHasRating %}
+        <h2>Vous avez déjà donné votre avis sur ce film</h2>
+    {% else %}
+
+        {% if is_granted('ROLE_USER') %}
+            <h2>Donnez votre avis sur
+                {{movie.title}}</h2>
+            {{ form_start(form)}}
+
+            {{ form_widget(form)}}
+
+            <button class="btn btn-success" type="submit">
+                <i class="fas fa-check"></i>
+                Confirmer la notation
+            </button>
+
+            {{ form_end(form)}}
+
+        {% else %}
+            <h2>Connectez-vous si vous souhaitez donner votre avis sur le film</h2>
+            <a href="{{ path('security_login') }}" class="btn btn-primary">
+                <i class="fas fa-lock-open"></i>
+                Connexion
+            </a>
+        {% endif %}
+    {% endif %}
+
+    <hr>
     <h2>{{movie.ratings | length}}
         critiques de la communauté
     </h2>

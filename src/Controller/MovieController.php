@@ -7,6 +7,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Category;
 use App\Entity\Movie;
 use App\Repository\CategoryRepository;
+use App\Entity\Rating;
+use App\Form\RatingType;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
+use App\Repository\RatingRepository;
 
 class MovieController extends AbstractController
 {
@@ -23,10 +28,34 @@ class MovieController extends AbstractController
     /**
      * @Route("/movie/{slug}", name="movie_show")
      */
-    public function showMovie(Movie $movie)
+    public function showMovie(Movie $movie, Request $request, ObjectManager $manager, RatingRepository $ratingRepository)
     {
+
+        $rating = new Rating();
+
+        $form = $this->createForm(RatingType::class, $rating);
+
+        $alreadyHasRating = (null != $ratingRepository->findOneBy(["movie" => $movie, "author" => $this->getUser()]));
+
+        if (!$alreadyHasRating) {
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $rating->setAuthor($this->getUser())
+                    ->setMovie($movie)
+                    ->setCreatedAt(new \DateTime());
+
+                $manager->persist($rating);
+                $manager->flush();
+
+                $this->redirectToRoute("movie_show", ["slug" => $movie->getSlug()]);
+            }
+        }
+
         return $this->render('movie/show.html.twig', [
-            'movie' => $movie
+            'movie' => $movie,
+            'form' => $form->createView(),
+            'alreadyHasRating' => $alreadyHasRating
         ]);
     }
 

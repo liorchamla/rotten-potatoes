@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RatingRepository")
@@ -23,11 +24,13 @@ class Rating
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $comment;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer")
      */
     private $notation;
 

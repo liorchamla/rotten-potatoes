@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Rating;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use App\Entity\Movie;
+use App\Entity\User;
 
 /**
  * @method Rating|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +19,17 @@ class RatingRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Rating::class);
+    }
+
+    public function findRatingForMovieAndUser(Movie $movie, User $user)
+    {
+        return $this->createQueryBuilder("r")
+            ->select("COUNT(r)")
+            ->andWhere("r.author = :user")
+            ->andWhere("r.movie = :movie")
+            ->setParameters(["movie" => $movie, "user" => $user])
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     // /**
