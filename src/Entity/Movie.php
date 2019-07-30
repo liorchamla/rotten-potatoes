@@ -56,12 +56,12 @@ class Movie
     private $actors;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\People", inversedBy="directed", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\People", inversedBy="directed")
      */
     private $director;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="movie", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="movie")
      */
     private $ratings;
 

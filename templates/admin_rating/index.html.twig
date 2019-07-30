@@ -1,0 +1,44 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Gestion des notations
+{% endblock %}
+
+{% block header %}Gestion des notations
+{% endblock %}
+
+{% block body %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id.</th>
+                <th>Auteur</th>
+                <th>Film</th>
+                <th>Contenu</th>
+                <th>Note</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for rating in ratings %}
+                <tr>
+                    <td>{{rating.id}}</td>
+                    <td>{{rating.author.name}}</td>
+                    <td>{{rating.movie.title}}</td>
+                    <td style="width: 40%">{{rating.comment}}</td>
+                    <td>{{rating.notation}}</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="#">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="#">
+                            <i class="fas fa-trash"></i>
+                        </a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

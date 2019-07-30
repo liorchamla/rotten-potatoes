@@ -1,0 +1,49 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Gestion des films
+{% endblock %}
+
+
+{% block header %}
+    Gestion des films
+{% endblock %}
+
+{% block body %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id.</th>
+                <th>Titre</th>
+                <th>Catégorie</th>
+                <th>Année</th>
+                <th>Moyenne</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for movie in movies %}
+                <tr>
+                    <td>{{movie.id}}</td>
+                    <td>{{movie.title}}</td>
+                    <td>
+                        {% for category in movie.categories %}
+                            <span class="badge badge-dark">{{category.title}}</span>
+                        {% endfor %}
+                    </td>
+                    <td>{{movie.releasedAt | date('Y')}}</td>
+                    <td>{{movie.avgRatings | number_format(2, ",", " ")}}</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="#">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="#">
+                            <i class="fas fa-trash"></i>
+                        </a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

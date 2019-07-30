@@ -21,6 +21,16 @@ class RatingRepository extends ServiceEntityRepository
         parent::__construct($registry, Rating::class);
     }
 
+    public function findAllWithRelations()
+    {
+        return $this->createQueryBuilder("r")
+            ->addSelect("m, a")
+            ->innerJoin("r.movie", "m")
+            ->innerJoin("r.author", "a")
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findRatingForMovieAndUser(Movie $movie, User $user)
     {
         return $this->createQueryBuilder("r")
