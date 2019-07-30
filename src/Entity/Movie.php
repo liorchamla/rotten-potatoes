@@ -72,6 +72,17 @@ class Movie
         $this->ratings = new ArrayCollection();
     }
 
+    public function getAvgRatings(): float
+    {
+        return array_reduce(
+            $this->ratings->toArray(),
+            function ($total, Rating $rating) {
+                return $total + $rating->getNotation();
+            },
+            0
+        ) / count($this->ratings);
+    }
+
     public function getSomeActors(?int $count = 3): array
     {
         return $this->actors->slice(0, $count);

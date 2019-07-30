@@ -7,18 +7,46 @@
     <h1>Les films de la catégorie
         <em>{{category.title}}</em>
     </h1>
+    <hr>
 
     <div class="row">
         {% for movie in category.movies %}
-            <div class="col-3 mb-3">
+            <div class="col-4 mb-3">
                 <div class="card">
                     <img src="{{movie.poster}}" class="img-fluid" alt="">
                     <div class="card-body">
-                        <h4 class="card-title">{{movie.title}}</h4>
+                        <h4 class="card-title">
+                            {{movie.title}}
+                        </h4>
+                        {% for category in movie.categories %}
+                            <a href="{{path('movie_category', {'slug': category.slug})}}" class="badge badge-dark">
+                                {{ category.title }}
+                            </a>
+                        {% endfor %}
+                        <hr>
 
-                        <h6 class="card-subtitle mb-2 text-muted">Critiqué par
-                            {{movie.ratings|length}}
-                            utilisateurs</h6>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4>
+                                {% if movie.avgRatings > 2.5 %}
+                                    {% set className = "badge-success" %}
+                                {% elseif movie.avgRatings > 1.5 %}
+                                    {% set className = "badge-warning" %}
+                                {% else %}
+                                    {% set className = "badge-danger" %}
+                                {% endif %}
+                                <span class="badge {{className}}">
+                                    Noté :
+                                    {{ movie.avgRatings | number_format(2, ",", " ") }}
+                                    / 5
+                                </span>
+                            </h4>
+                            <h6 class="card-subtitle text-muted">Critiqué par
+                                {{movie.ratings|length}}
+                                utilisateurs</h6>
+
+                        </div>
+
 
                         <hr>
 
@@ -28,9 +56,27 @@
                             {{movie.director.firstName}}
                             {{movie.director.lastName}}
                             <br>
-                            <strong>Sorti le :
+                            <strong>Sorti en :
                             </strong>
-                            {{ movie.releasedAt | date('d/m/Y') }}
+                            {{ movie.releasedAt | date('Y') }}
+                            <br>
+                            <strong>Avec :
+                            </strong>
+                            {% for actor in movie.someActors(3) %}
+                                {% if not loop.last %}
+                                    {{ actor.firstName }}
+                                    {{ actor.lastName}},
+                                {% else %}
+                                    {{ actor.firstName }}
+                                    {{ actor.lastName}}
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if movie.actors|length > 3 %}
+                                et
+                                {{movie.actors|length - 3}}
+                                autres acteurs
+                            {% endif %}
                         </p>
 
                         <p class="card-text">{{movie.synopsis}}</p>
