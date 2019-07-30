@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Category;
 use App\Entity\Movie;
+use App\Repository\CategoryRepository;
 
 class MovieController extends AbstractController
 {
@@ -27,5 +28,12 @@ class MovieController extends AbstractController
         return $this->render('movie/show.html.twig', [
             'movie' => $movie
         ]);
+    }
+
+    public function menuCategories(CategoryRepository $repo)
+    {
+        $categories = $repo->findAll();
+
+        return $this->render('movie/_categories.html.twig', ['categories' => $categories]);
     }
 }
