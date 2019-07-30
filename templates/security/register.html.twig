@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Inscription
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="alert alert-light">
+                <h1 class="alert-title">Inscription</h1>
+
+                {{ form_start(form, {'attr': {'novalidate':'novalidate'}}) }}
+
+                {{ form_row(form.name) }}
+                {{ form_row(form.avatar) }}
+
+                <hr>
+
+                {{ form_widget(form) }}
+
+                <button class="btn btn-success" type="submit">
+                    <i class="fas fa-check"></i>
+                    Confirmation
+                </button>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
