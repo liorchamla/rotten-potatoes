@@ -9,9 +9,20 @@ use App\Entity\Category;
 use App\Entity\Movie;
 use App\Entity\People;
 use App\Entity\Rating;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Entity\User;
 
 class AppFixtures extends Fixture
 {
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
 
     private function getRandomPicture(string $gender): string
     {
@@ -56,6 +67,22 @@ class AppFixtures extends Fixture
             $manager->persist($person);
         }
 
+        $usersCount = mt_rand(20, 40);
+        $users = [];
+
+        for ($u = 0; $u < $usersCount; $u++) {
+            $user = new User;
+            $gender = $faker->randomElement(['men', 'women']);
+            $user->setAvatar($this->getRandomPicture($gender))
+                ->setEmail("user$u@gmail.com")
+                ->setPassword($this->encoder->encodePassword($user, "pass"))
+                ->setName($faker->userName);
+
+            $manager->persist($user);
+
+            $users[] = $user;
+        }
+
         $moviesCount = mt_rand(40, 100);
 
         for ($m = 0; $m < $moviesCount; $m++) {
@@ -89,7 +116,8 @@ class AppFixtures extends Fixture
                 $rating->setComment($faker->realText())
                     ->setCreatedAt($faker->dateTimeBetween("-6 months"))
                     ->setNotation(mt_rand(1, 5))
-                    ->setMovie($movie);
+                    ->setMovie($movie)
+                    ->setAuthor($faker->randomElement($users));
 
                 $manager->persist($rating);
             }

@@ -36,6 +36,11 @@ class Rating
      */
     private $movie;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ratings")
+     */
+    private $author;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +90,18 @@ class Rating
     public function setMovie(?Movie $movie): self
     {
         $this->movie = $movie;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
