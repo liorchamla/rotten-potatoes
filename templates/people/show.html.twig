@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de
+    {{people.fullName}}
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-2">
+            <img src="{{ people.picture }}" alt="">
+        </div>
+        <div class="col">
+            <h1>Page de
+                {{people.fullName}}</h1>
+
+            <dl class="row">
+                <dt class="col-sm-3">Né(e) le :
+                </dt>
+                <dd class="col-sm-9">{{ people.birthday | date('d/m/Y') }}</dd>
+                <dt class="col-sm-3">Description :
+                </dt>
+                <dd class="col-sm-9">{{ people.description }}</dd>
+            </dl>
+        </div>
+
+    </div>
+
+    {% if people.actedIn | length > 0  %}
+        <hr>
+        <h2>{{people.firstName}}
+            a joué dans
+            {{ people.actedIn | length}}
+            films</h2>
+
+        {% for movie in people.actedIn %}
+            <div class="row mb-3">
+                <div class="col-2">
+                    <img src="{{movie.poster}}" alt="" class="img-fluid">
+                </div>
+
+                <div class="col">
+                    <h3>{{movie.title}}
+                    </h3>
+                    {% for category in movie.categories %}
+                        <a href="{{path('movie_category', {'slug': category.slug})}}" class="badge badge-dark">
+                            {{ category.title }}
+                        </a>
+                    {% endfor %}
+
+                    <h6 class="text-muted mt-3">
+                        Réalisé par
+                        {{ movie.director.fullName }}
+                        en
+                        {{ movie.releasedAt | date('Y') }}
+
+                    </h6>
+
+                    <h5>
+                        <span class="badge badge-success">{{movie.avgRatings | number_format(2, ",", " ") }}</span>
+                        par la communauté de Rotten Potatoes
+                    </h5>
+
+                    <div class="details">
+                        <strong>Synopsis :</strong>
+                        <p>{{ movie.synopsis }}</p>
+
+                        <strong>Avec :
+                        </strong>
+                        {% for actor in movie.someActors(3) %}
+                            {% if not loop.last %}
+                                {{ actor.fullName }},
+                            {% else %}
+                                {{ actor.fullName}}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if movie.actors|length > 3 %}
+                            et
+                            {{movie.actors|length - 3}}
+                            autres acteurs
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+    {% if people.directed | length > 0 %}
+        <hr>
+        <h2>{{people.firstName}}
+            a réalisé
+            {{ people.directed | length }}
+            films :</h2>
+
+        {% for movie in people.directed %}
+            <div class="row">
+                <div class="col-3">
+                    <img src="{{movie.poster}}" alt="">
+                </div>
+
+                <div class="col">
+                    <h3>{{movie.title}}
+                        ({{ movie.releasedAt | date('Y') }})
+                        <span class="badge badge-success">{{movie.avgRatings | number_format(2, ",", " ") }}</span>
+                    </h3>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% endif %}
+
+
+{% endblock %}
