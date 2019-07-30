@@ -71,8 +71,10 @@
             </h2>
             {% for actor in movie.actors %}
                 <div class="mb-2">
-                    <img src="{{actor.picture}}" alt="" class="avatar avatar-mini mr-2">
-                    {{actor.fullName}}
+                    <a href="{{ path('people_show', {'slug': actor.slug}) }}">
+                        <img src="{{actor.picture}}" alt="" class="avatar avatar-mini mr-2">
+                        {{actor.fullName}}
+                    </a>
                 </div>
             {% endfor %}
         </div>

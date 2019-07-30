@@ -56,8 +56,7 @@
                         <p class="card-text">
                             <strong>Réalisé par :
                             </strong>
-                            {{movie.director.firstName}}
-                            {{movie.director.lastName}}
+                            {{movie.director.fullName}}
                             <br>
                             <strong>Sorti en :
                             </strong>
@@ -67,11 +66,9 @@
                             </strong>
                             {% for actor in movie.someActors(3) %}
                                 {% if not loop.last %}
-                                    {{ actor.firstName }}
-                                    {{ actor.lastName}},
+                                    {{ actor.fullName }},
                                 {% else %}
-                                    {{ actor.firstName }}
-                                    {{ actor.lastName}}
+                                    {{ actor.fullName}}
                                 {% endif %}
                             {% endfor %}
 
