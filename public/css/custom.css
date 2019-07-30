@@ -1,0 +1,10 @@
+.avatar {
+    max-width: 60px;
+    max-height: 60px;
+    border-radius: 50%;
+}
+
+.avatar-mini {
+    max-width: 32px;
+    max-height: 32px;
+}

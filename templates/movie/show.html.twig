@@ -1,0 +1,93 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Fiche du film :
+    {{movie.title}}
+{% endblock %}
+
+{% block body %}
+    {% if movie.avgRatings > 2.5 %}
+        {% set className = "badge-success" %}
+    {% elseif movie.avgRatings > 1.5 %}
+        {% set className = "badge-warning" %}
+    {% else %}
+        {% set className = "badge-danger" %}
+    {% endif %}
+
+    <h1 class="mb-5">{{movie.title}}
+        ({{movie.director.fullName}},
+        {{movie.releasedAt|date('Y')}})
+        <span class="badge {{className}} float-right">
+            Noté :
+            {{ movie.avgRatings | number_format(2, ",", " ") }}
+            / 5
+        </span>
+    </h1>
+
+    <div class="row">
+        <div class="col-4">
+            <img src="{{movie.poster}}" alt="" class="img-fluid">
+        </div>
+        <div class="col">
+            <h2>Synopsis du film :</h2>
+            <p>{{ movie.synopsis}}</p>
+
+            {% for category in movie.categories %}
+                <a href="{{path('movie_category', {'slug': category.slug})}}" class="badge badge-dark">
+                    {{ category.title }}
+                </a>
+            {% endfor %}
+
+
+            <hr>
+            <h2>Réalisé par
+                {{movie.director.fullName}}</h2>
+
+            <div class="row">
+                <div class="col-3">
+                    <img src="{{movie.director.picture}}" alt="">
+                </div>
+                <div class="col">
+                    <strong>{{ movie.director.directed | length}}
+                        films réalisé(s) :</strong>
+                    <ul class="list-unstyled">
+                        {% for movie in movie.director.directed %}
+                            <li>
+                                -
+                                <a href="{{ path('movie_show', {'slug': movie.slug}) }}">
+                                    {{ movie.title }}
+                                    ({{movie.releasedAt | date('Y')}},
+                                    {{movie.avgRatings | number_format(2, ","," ")}}
+                                    / 5)
+                                </a>
+
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <hr>
+            <h2>Casting :
+            </h2>
+            {% for actor in movie.actors %}
+                <div class="mb-2">
+                    <img src="{{actor.picture}}" alt="" class="avatar avatar-mini mr-2">
+                    {{actor.fullName}}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
+    <h2>{{movie.ratings | length}}
+        critiques de la communauté
+    </h2>
+
+    {% for rating in movie.ratings %}
+        <strong>{{ rating.author.name }}</strong>
+        <span class="badge badge-success">{{ rating.notation }}
+            / 5</span>
+        <blockquote>
+            <em>{{ rating.comment }}</em>
+        </blockquote>
+    {% endfor %}
+{% endblock %}

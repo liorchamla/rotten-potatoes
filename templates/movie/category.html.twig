@@ -16,7 +16,10 @@
                     <img src="{{movie.poster}}" class="img-fluid" alt="">
                     <div class="card-body">
                         <h4 class="card-title">
-                            {{movie.title}}
+                            <a href="{{path('movie_show', {'slug': movie.slug})}}">
+                                {{movie.title}}
+                            </a>
+
                         </h4>
                         {% for category in movie.categories %}
                             <a href="{{path('movie_category', {'slug': category.slug})}}" class="badge badge-dark">
