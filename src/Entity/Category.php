@@ -32,6 +32,7 @@ class Category
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Movie", mappedBy="categories")
+     * @ORM\OrderBy({"releasedAt":"DESC"})
      */
     private $movies;
 
