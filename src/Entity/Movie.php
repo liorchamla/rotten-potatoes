@@ -56,12 +56,12 @@ class Movie
     private $actors;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\People", inversedBy="directed")
+     * @ORM\ManyToOne(targetEntity="App\Entity\People", inversedBy="directed", fetch="EAGER")
      */
     private $director;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="movie")
+     * @ORM\OneToMany(targetEntity="App\Entity\Rating", mappedBy="movie", fetch="EAGER")
      */
     private $ratings;
 
@@ -70,6 +70,11 @@ class Movie
         $this->categories = new ArrayCollection();
         $this->actors = new ArrayCollection();
         $this->ratings = new ArrayCollection();
+    }
+
+    public function getSomeActors(?int $count = 3): array
+    {
+        return $this->actors->slice(0, $count);
     }
 
     public function getId(): ?int
