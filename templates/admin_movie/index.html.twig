@@ -34,10 +34,10 @@
                     <td>{{movie.releasedAt | date('Y')}}</td>
                     <td>{{movie.avgRatings | number_format(2, ",", " ")}}</td>
                     <td>
-                        <a class="btn btn-primary btn-sm" href="#">
+                        <a class="btn btn-primary btn-sm" href="{{ path('admin_movie_edit', {'id': movie.id}) }}">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a class="btn btn-danger btn-sm" href="#">
+                        <a class="btn btn-danger btn-sm" href="{{ path('admin_movie_delete', {'id': movie.id}) }}">
                             <i class="fas fa-trash"></i>
                         </a>
 

@@ -1,0 +1,42 @@
+{% extends "admin.html.twig" %}
+
+{% block header %}Modification de
+    {{movie.title}}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+
+    <div class="row">
+        <div class="col">
+            <div class="alert alert-light">
+                <h3 class="alert-title">Informations générales</h3>
+                {{ form_row(form.title) }}
+                {{ form_row(form.slug) }}
+                {{ form_row(form.poster) }}
+                {{ form_row(form.releasedAt) }}
+                {{ form_row(form.director) }}
+                {{ form_row(form.synopsis) }}
+            </div>
+        </div>
+        <div class="col">
+            <div class="alert alert-light">
+                {{ form_row(form.categories) }}
+            </div>
+            <div class="alert alert-light">
+                {{ form_row(form.actors) }}
+
+                <button class="btn btn-success" type="submit">
+                    <i class="fas fa-save"></i>
+                    Enregistrer
+                </button>
+                <a href="{{ path('admin_movie') }}" class="btn btn-warning text-white">
+                    <i class="fas fa-list"></i>
+                    Retour au films
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

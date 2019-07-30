@@ -24,7 +24,7 @@ class MovieRepository extends ServiceEntityRepository
         return $this->createQueryBuilder("m")
             ->addSelect("c, r")
             ->leftJoin("m.ratings", "r")
-            ->innerJoin("m.categories", "c")
+            ->leftJoin("m.categories", "c")
             ->getQuery()
             ->getResult();
     }
