@@ -129,7 +129,7 @@ class AppFixtures extends Fixture
         for ($m = 0; $m < $moviesCount; $m++) {
             $movie = new Movie;
             $movie->setTitle($faker->catchPhrase)
-                ->setPoster($faker->imageUrl(200, 500, null, false))
+                ->setPoster($faker->imageUrl(300, 500, null))
                 ->setReleasedAt($faker->dateTimeBetween('-40 years'))
                 ->setSynopsis($faker->realText());
 
