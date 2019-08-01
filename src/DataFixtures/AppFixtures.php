@@ -11,6 +11,7 @@ use App\Entity\People;
 use App\Entity\Rating;
 use App\Entity\User;
 use Faker\Factory;
+use App\Entity\Like;
 
 /**
  * Fixtures pour le projet Rotten Potatoes
@@ -161,6 +162,19 @@ class AppFixtures extends Fixture
                     ->setMovie($movie)
                     // Je prend un utilisateur au hasard qui aura posté ce commentaire
                     ->setAuthor($faker->randomElement($users));
+
+                /**
+                 * LES LIKES DU RATING
+                 */
+                $likesCount = mt_rand(3, 15);
+                for ($l = 0; $l < $likesCount; $l++) {
+                    $like = new Like;
+                    $like->setRating($rating)
+                        ->setAuthor($faker->randomElement($users))
+                        ->setPositive($faker->boolean(60));
+
+                    $manager->persist($like);
+                }
 
                 $manager->persist($rating);
             }
