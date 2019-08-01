@@ -129,6 +129,20 @@ class Rating
         return $this->likes;
     }
 
+    public function getPositiveLikes()
+    {
+        return $this->likes->filter(function (Like $like) {
+            return $like->isPositive();
+        });
+    }
+
+    public function getNegativeLikes()
+    {
+        return $this->likes->filter(function (Like $like) {
+            return !$like->isPositive();
+        });
+    }
+
     public function addLike(Like $like): self
     {
         if (!$this->likes->contains($like)) {

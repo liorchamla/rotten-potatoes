@@ -114,11 +114,26 @@
     </h2>
 
     {% for rating in movie.ratings %}
-        <strong>{{ rating.author.name }}</strong>
-        <span class="badge badge-success">{{ rating.notation }}
-            / 5</span>
-        <blockquote>
-            <em>{{ rating.comment }}</em>
-        </blockquote>
+        <div>
+            <strong>{{ rating.author.name }}</strong>
+            <span class="badge badge-success">{{ rating.notation }}
+                / 5</span>
+            <blockquote>
+                <em>{{ rating.comment }}</em>
+            </blockquote>
+
+            <span class="badge badge-dark">
+                {{ rating.positiveLikes | length }}&nbsp;
+                <i class="far fa-thumbs-up"></i>
+            </span>
+
+            <span class="badge badge-dark">
+                {{ rating.negativeLikes | length }}&nbsp;
+                <i class="far fa-thumbs-down"></i>
+            </span>
+
+            <hr>
+        </div>
+
     {% endfor %}
 {% endblock %}

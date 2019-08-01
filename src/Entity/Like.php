@@ -37,7 +37,7 @@ class Like
         return $this->id;
     }
 
-    public function getPositive(): ?bool
+    public function isPositive(): ?bool
     {
         return $this->positive;
     }
