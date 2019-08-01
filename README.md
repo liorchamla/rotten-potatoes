@@ -85,8 +85,11 @@ La liste des films avec lien de suppression / modification / ajout
 La liste des commentaires avec lien de suppression
 
 ### Page d'accueil (route: /) - à faire en dernier :-)
+
 **Les 3 derniers films sortis**
+
 Il faut présenter les 3 derniers films sortis avec
+
 - L'image du film
 - Le réalisateur du film (prénom et nom)
 - L'année de sortie
@@ -94,7 +97,9 @@ Il faut présenter les 3 derniers films sortis avec
 - La note moyenne
 
 **Les 3 meilleurs films**
+
 Il faut présenter les 3 films les mieux notés avec :
+
 - L'image du film
 - Le réalisateur du film (prénom et nom)
 - L'année de sortie
@@ -102,9 +107,27 @@ Il faut présenter les 3 films les mieux notés avec :
 - La note moyenne
 
 **Les 3 pires films**
+
 Il faut présenter les 3 films les moins bien notés avec :
+
 - L'image du film
 - Le réalisateur du film (prénom et nom)
 - L'année de sortie
 - 2 acteurs au hasard (leur nom et prénom)
 - La note moyenne
+
+# BONUS pour les braves :-)
+
+Pour tous ceux qui ont terminé en avance le projet, voici un certain nombre de bonus que vous pouvez mettre en place
+
+### La recherche de films 
+
+Il faudrait pouvoir utiliser un formulaire qui se trouve dans la barre de navigation du site et qui permette de rechercher un film dont le titre, le synopsis ou la catégorie contiendrait un mot.
+
+### Le vote pour ou contre un commentaire 
+
+Parfois, on peut trouver qu'un commentaire sous un film est très pertinent ou pas vraiment pertinent, et il serait donc cool qu'il existe un système de likes/dislikes sur les commentaires. On pourrait voir sur chaque commentaire un lien "J'aime" (ou une icône correspondante) et un lien "Je n'aime pas" (ou une icône correspondante) ainsi que le compte de likes / dislikes.
+
+Attention, il faudrait être sur que la personne soit connectée pour cliquer sur le lien et ajouter un j'aime ou j'aime pas. Dans l'idéal il faudrait empêcher la personne de reliker / redisliker un commentaire une fois qu'elle l'a déjà fait.
+
+**Hardcore bonus** : pourrait-on faire en sorte que tout ça se fasse en AJAX ? ;-)
