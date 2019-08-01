@@ -122,18 +122,62 @@
                 <em>{{ rating.comment }}</em>
             </blockquote>
 
-            <span class="badge badge-dark">
-                {{ rating.positiveLikes | length }}&nbsp;
-                <i class="far fa-thumbs-up"></i>
-            </span>
+            {% if is_granted('ROLE_USER') and not rating.hasLikeFromUser(app.user) %}
+                <a class="badge badge-light text-dark" data-action="like" href="{{ path('movie_rating_like', {'id': rating.id}) }}">
+                    <span>{{ rating.positiveLikes | length }}</span>&nbsp;
+                    <i class="far fa-thumbs-up"></i>
+                </a>
 
-            <span class="badge badge-dark">
-                {{ rating.negativeLikes | length }}&nbsp;
-                <i class="far fa-thumbs-down"></i>
-            </span>
+                <a class="badge badge-light text-dark" data-action="dislike" href="{{ path('movie_rating_dislike', {'id': rating.id}) }}">
+                    <span>{{ rating.negativeLikes | length }}</span>&nbsp;
+                    <i class="far fa-thumbs-down"></i>
+                </a>
+            {% else %}
+                <span class="badge badge-dark">
+                    {{ rating.positiveLikes | length }}&nbsp;
+                    <i class="far fa-thumbs-up"></i>
+                </span>
 
+                <span class="badge badge-dark">
+                    {{ rating.negativeLikes | length }}&nbsp;
+                    <i class="far fa-thumbs-down"></i>
+                </span>
+
+            {% endif %}
             <hr>
         </div>
 
     {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        // Je vais chercher tous les liens qui ont un attribut data-action qui contient le mot like
+        document.querySelectorAll("a[data-action*='like']").forEach(link => { // Pour chaque lien, je créé un événement sur le click
+            link.addEventListener('click', e => { // J'annule le comportement par défaut du click
+                e.preventDefault();
+
+                // Je récupère le href du lien
+                const href = link.href;
+                const action = link.dataset.action;
+
+                // Si on a bien un href (les liens déjà cliqués n'ont plus de href)
+                if (href) { // On appelle l'URL en AJAX et on récupère la réponse en JSON
+                    fetch(href).then(response => response.json()).then(data => { // Regardez la console pour voir ce que le controller a renvoyé
+                        console.log(data);
+                        // On change le nombre de likes / dislikes
+                        link.querySelector('span').textContent = (action === 'like' ? data.positiveLikes : data.negativeLikes);
+                        // On change l'apparence du bouton
+                        link.classList.remove('badge-light', 'text-dark');
+                        link.classList.add('badge-dark', 'text-light');
+                        // On supprime le href pour qu'on ne puisse pas recliquer sur le bouton
+                        link.removeAttribute('href');
+                    });
+                }
+
+            })
+        })
+    </script>
 {% endblock %}

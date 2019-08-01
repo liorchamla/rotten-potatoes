@@ -121,6 +121,13 @@ class Rating
         return $this;
     }
 
+    public function hasLikeFromUser(User $user): bool
+    {
+        return $this->likes->filter(function (Like $like) use ($user) {
+            return $like->getAuthor() === $user;
+        })->count() > 0;
+    }
+
     /**
      * @return Collection|Like[]
      */

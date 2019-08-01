@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Repository\RatingRepository;
 use App\Repository\MovieRepository;
+use App\Entity\Like;
 
 class MovieController extends AbstractController
 {
@@ -75,10 +76,56 @@ class MovieController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/rating/{id}/like", name="movie_rating_like")
+     */
+    public function ratingLike(Rating $rating, ObjectManager $manager)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $this->persistLike($rating, true);
+
+        return $this->getJsonResponseForRatingLikes($rating);
+    }
+
+    /**
+     * @Route("/rating/{id}/dislike", name="movie_rating_dislike")
+     */
+    public function ratingDislike(Rating $rating, ObjectManager $manager)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $this->persistLike($rating, false);
+
+        return $this->getJsonResponseForRatingLikes($rating);
+    }
+
     public function menuCategories(CategoryRepository $repo)
     {
         $categories = $repo->findAll();
 
         return $this->render('movie/_categories.html.twig', ['categories' => $categories]);
+    }
+
+    protected function getJsonResponseForRatingLikes(Rating $rating)
+    {
+        return $this->json(['positiveLikes' => $rating->getPositiveLikes()->count(), 'negativeLikes' => $rating->getNegativeLikes()->count()]);
+    }
+
+    protected function persistLike(Rating $rating, bool $isPositive = true)
+    {
+        if (!$rating->hasLikeFromUser($this->getUser())) {
+            $like = new Like;
+            $like->setRating($rating)
+                ->setAuthor($this->getUser())
+                ->setPositive($isPositive);
+
+            $manager = $this->getDoctrine()->getManager();
+
+            $manager->persist($like);
+            $manager->flush();
+
+            $manager->refresh($rating);
+        }
     }
 }
